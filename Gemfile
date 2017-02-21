@@ -24,7 +24,7 @@ group :jekyll_plugins do
   gem 'jekyll-contentblocks'
 end
 
-# for project submission form:
+# For project submissions app
 gem 'rack'
 gem 'rack-recaptcha'
 gem 'sinatra'
