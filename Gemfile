@@ -23,3 +23,10 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.6"
   gem 'jekyll-contentblocks'
 end
+
+# for project submission form:
+gem 'rack'
+gem 'rack-recaptcha'
+gem 'sinatra'
+gem 'pony'
+gem 'json'
