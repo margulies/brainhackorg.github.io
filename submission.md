@@ -17,6 +17,58 @@ To have your project or resource published on the Brainhack webpage, please send
 <li><strong>Contact information:</strong> email for project leader or other person to contact for more information.</li>
 <li><Strong>Project logo:</strong> preferably a 222 x 180 (466 x 180) 72 dpi image in png format</li></ul>
 
+
+<script type="text/javascript">
+  function showRecaptcha(element) {
+    Recaptcha.create('YOUR_PUBLIC_KEY_FROM_RECAPTCHA', element, {
+      theme: 'custom', // you can pick another at https://developers.google.com/recaptcha/docs/customization
+      custom_theme_widget: 'recaptcha_widget'
+    });
+  }
+
+  function setupRecaptcha() {
+    var contactFormHost = 'YOUR_BACKEND_ADDRESS_FROM_HEROKU',
+        form = $('#contact-form'),
+        notice = form.find('#notice');
+
+    if (form.length) {
+      showRecaptcha('recaptcha_widget');
+
+      form.submit(function(ev){
+        ev.preventDefault();
+
+        $.ajax({
+          type: 'POST',
+          url: contactFormHost + 'send_email',
+          data: form.serialize(),
+          dataType: 'json',
+          success: function(response) {
+            switch (response.message) {
+              case 'success':
+                form.fadeOut(function() {
+                  form.html('<h4>' + form.data('success') + '</h4>').fadeIn();
+                });
+                break;
+
+              case 'failure_captcha':
+                showRecaptcha('recaptcha_widget');
+                notice.text(notice.data('captcha-failed')).fadeIn();
+                break;
+
+              case 'failure_email':
+                notice.text(notice.data('error')).fadeIn();
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            notice.text(notice.data('error')).fadeIn();
+          }
+        });
+      });
+    }
+  }
+</script>
+
+
 <form id="contact-form" class="contact-form" method="post" data-success="Project successfully submitted!">
 
   <label for="name">Name</label>
