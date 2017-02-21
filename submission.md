@@ -1,6 +1,6 @@
 ---
-layout: page
-title: About
+layout: submission
+title: Submit a project
 ---
 
 # Submit a project
