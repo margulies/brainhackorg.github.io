@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/isotope.pkgd.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/octicons.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="/stylesheets/bib-publication-list.css"/>
+    <link rel="stylesheet" href="/stylesheets/default/default.css" type="text/css" media="screen" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <script type="text/javascript">
+      function showRecaptcha(element) {
+        Recaptcha.create('6LdDbhYUAAAAAInVN3NOWBjy9rFK31tSVOLM_1Zt', element, {
+          theme: 'custom', // you can pick another at https://developers.google.com/recaptcha/docs/customization
+          custom_theme_widget: 'recaptcha_widget'
+        });
+      }
+
+      function setupRecaptcha() {
+        var contactFormHost = 'https://brainhack-projects-form.herokuapp.com',
+            form = $('#contact-form'),
+            notice = form.find('#notice');
+
+        if (form.length) {
+          showRecaptcha('recaptcha_widget');
+
+          form.submit(function(ev){
+            ev.preventDefault();
+
+            $.ajax({
+              type: 'POST',
+              url: contactFormHost + 'send_email',
+              data: form.serialize(),
+              dataType: 'json',
+              success: function(response) {
+                switch (response.message) {
+                  case 'success':
+                    form.fadeOut(function() {
+                      form.html('<h4>' + form.data('success') + '</h4>').fadeIn();
+                    });
+                    break;
+
+                  case 'failure_captcha':
+                    showRecaptcha('recaptcha_widget');
+                    notice.text(notice.data('captcha-failed')).fadeIn();
+                    break;
+
+                  case 'failure_email':
+                    notice.text(notice.data('error')).fadeIn();
+                }
+              },
+              error: function(xhr, ajaxOptions, thrownError) {
+                notice.text(notice.data('error')).fadeIn();
+              }
+            });
+          });
+        }
+      }
+    </script>
+
+
+    <title>Brainhack</title>
+
+  </head>
+
+  <body>
+    <div class="container-bhack" >
+      <img src="/assets/images/brainhack_header.png" id="logo">
+      <nav class="navbar navbar-bhack">
+        <!-- <div class="container-fluid"> -->
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav nopad-left">
+              <li class="nopad-left"><a href="/index.html">HOME</a></li>
+              <li class="nopad-left"><a href="/submission.html">+SUBMIT A PROJECT</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PAST AND FUTURE EVENTS<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://events.brainhack.org/global2017" target="_blank">Brainhack Global 2017</a></li>
+                  <li><a href="http://brainhackghent.wixsite.com/brainhackghent" target="_blank">Brainhack Ghent 2017</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="http://brainhack.org/brainhackparis/" target="_blank">Brainhack@Paris 2016</a></li>
+                  <li><a href="http://events.brainhack.org/OHBM2016" target="_blank">OHBM Hackathon 2016 (Lausanne)</a></li>
+                  <li><a href="http://events.brainhack.org/vienna" target="_blank">Brainhack Vienna 2016</a></li>
+                  <li><a href="http://neuroanatomy.github.io/events/brainhack/" target="_blank">Brainhack: Anatomy. Paris 2016</a></li>
+                  <li><a href="http://events.brainhack.org/LA2016" target="_blank">Brainhack LA 2016</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="http://brainhack.org/hackathon2015/" target="_blank">OHBM Hackathon 2015 (Honolulu)</a></li>
+                  <li><a href="https://www.rbiq-qbin.qc.ca/en/event/3790" target="_blank">Brainhack Montréal 2015</a></li>
+                  <li><a href="http://brainhack.org/americas/" target="_blank">Brainhack Americas 2015</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="http://brainhack.org/hackathon2014/" target="_blank">OHBM Hackathon 2014 (Berlin)</a></li>
+                  <li><a href="http://brainhack.org/brainhack-edt" target="_blank">Brainhack Eastern Daylight Time 2014</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="http://brainhack.org/brainhack-2013" target="_blank">Brainhack 2013 (Paris)</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="http://www.cbs.mpg.de/events/workshops/brainhack" target="_blank">2012 Brainhack & Unconference (Leipzig)</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PROCEEDINGS<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/proceedings_2016.html">Submit a report for 2016</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/proceedings_2015.html">2015</a></li>
+                </ul>
+              </li>
+              <li><a href="https://brainhack-slack-invite.herokuapp.com/">JOIN BRAINHACK SLACK CHANNEL</a></li>
+              <li><a href="/about.html">ABOUT</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        <!-- </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+    <section id="main_content">
+      <div class="post-container">
+        <div class="post-content">
+          {{ content }}
+       </div>
+      </div>
+    </section>
+
+    <!-- <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script> -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-53194826-1");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>
