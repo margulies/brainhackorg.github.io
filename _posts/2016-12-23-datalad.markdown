@@ -10,6 +10,8 @@ description: Relying on git-annex, DataLad aims to establish a data distribution
 Relying on git-annex, DataLad aims to establish a data distribution delivering variety of publicly available datasets (OpenfMRI collection, HCP, etc) via convenient unified, distributed and versioned interface. During hackathon we would be glad to work together to – help with refactoring “crawl”ing engine for automatic creation of git-annex repositories – place your datasets under git-annex control – develop custom git-annex external remotes to access data from interesting data providers/portals
 
 
+
+
 ## Contact  
 Yaroslav Halchenko  
 [debian@onerussian.com](mailto:debian@onerussian.com)  
